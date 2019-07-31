@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "Keep an eye on pull requests",
+  "version": "0.1",
+  "permissions": [
+    "tabs",
+    "storage",
+    "http://localhost:5003/pull_requests"
+  ],
+  "browser_action": {
+    "default_icon": "images/blue-shark.png",
+    "default_popup": "popup/index.html",
+    "default_title": "Keep an eye on pull requests"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  }
+}
