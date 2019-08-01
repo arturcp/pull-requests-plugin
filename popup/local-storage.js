@@ -2,12 +2,18 @@ var LocalStorage = {
   prefix: 'pull-requests-plugin__',
 
   read: function(key) {
-    var storageKey = this.prefix + key;
-    return localStorage.getItem(storageKey);
+    return localStorage.getItem(this._storageKey(key));
   },
 
   write: function(key, value) {
-    var storageKey = this.prefix + key;
-    localStorage.setItem(storageKey, value);
+    localStorage.setItem(this._storageKey(key), value);
+  },
+
+  remove: function(key) {
+    localStorage.removeItem(this._storageKey(key));
+  },
+
+  _storageKey: function(key) {
+    return this.prefix + key;
   }
 }

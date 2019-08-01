@@ -7,19 +7,15 @@ $(document).ready(function() {
     $('#plugin-container').show();
     $('.loading').hide();
 
+    PullRequests.setItems(data.items);
+
     if (data.items.length > 0) {
-      setIconBadge(data.items.length);
+      PullRequests.count();
 
       var items = [];
       $.each(data.items, function(index, item) {
-        // items.push(pullRequestLine(item));
         container.append(pullRequestLine(item));
       });
-
-      // $('<div/>', {
-      //   'class': 'pull-requests-list',
-      //   html: items.join('')
-      // }).appendTo(container);
     } else {
       container.innerHTML = 'Não há pull requests abertos.';
     }
@@ -27,10 +23,17 @@ $(document).ready(function() {
 });
 
 function pullRequestLine(item) {
-  var li = $('<p>')
-    .attr('id', item.id);
+  var checked = LocalStorage.read(item.id) != null;
 
-  var checkbox = buildCheckbox(),
+  var p = $('<p>')
+    .attr('id', item.id)
+    .addClass('pull-request-paragraph');
+
+  if (checked) {
+    p.addClass('checked');
+  }
+
+  var checkbox = buildCheckbox(item, checked),
       reviewed = LocalStorage.read(item.id);
 
   if (reviewed) {
@@ -49,13 +52,11 @@ function pullRequestLine(item) {
 
   details.html(item.user.login + daysAgo(item));
 
-  li.append(checkbox);
-  li.append(a);
-  li.append(details);
+  p.append(checkbox);
+  p.append(a);
+  p.append(details);
 
-  return $('<div>').addClass('pull-requests-list').append(li);
-
-  // return li.prop('outerHTML');;
+  return $('<div>').addClass('pull-requests-list').append(p);
 }
 
 // It will generate the following HTML:
@@ -66,13 +67,13 @@ function pullRequestLine(item) {
 // </label>
 //
 // Source: https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
-function buildCheckbox() {
+function buildCheckbox(item, checked) {
   var container = $('<label>')
     .addClass('checkbox-container');
 
   var checkbox = $('<input>')
     .attr('type', 'checkbox')
-    .attr('checked', false);
+    .attr('checked', checked);
 
   var checkmark = $('<span>')
     .addClass('checkmark');
@@ -81,10 +82,8 @@ function buildCheckbox() {
   container.append(checkmark);
 
   checkmark.on('click', function() {
-    console.log('clicked');
-    toggleReviewCheck(1);
+    toggleReviewCheck(item.id, checkbox);
   })
-
 
   return container;
 };
@@ -107,13 +106,17 @@ function daysAgo(item) {
   return ' <b class="' + klass + '">(' + timePassed + ')</b>';
 };
 
-function setIconBadge(count) {
-  chrome.browserAction.setIcon({ path:'../images/red-shark.png' });
-  chrome.browserAction.setBadgeText({ text: count.toString() });
-  chrome.browserAction.setBadgeBackgroundColor({ color: 'red' });
-}
+function toggleReviewCheck(id, element) {
+  var checkbox = $(element),
+      paragraph = checkbox.parents('p.pull-request-paragraph');
 
-function toggleReviewCheck(id) {
-  console.log(id);
-  // LocalStorage.write('test', 'abc');
+  if (checkbox.prop('checked')) {
+    LocalStorage.remove(id);
+    paragraph.removeClass('checked');
+  } else {
+    LocalStorage.write(id, true);
+    paragraph.addClass('checked');
+  }
+
+  PullRequests.count();
 }
