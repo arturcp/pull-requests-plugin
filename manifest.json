@@ -5,6 +5,7 @@
   "permissions": [
     "tabs",
     "storage",
+    "alarms",
     "http://localhost:5003/pull_requests"
   ],
   "browser_action": {
@@ -13,6 +14,12 @@
     "default_title": "Keep an eye on pull requests"
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "jquery-2.2.4.min.js",
+      "libraries/local-storage.js",
+      "libraries/pull-requests.js",
+      "libraries/api.js",
+      "background.js"
+    ]
   }
 }

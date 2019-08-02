@@ -7,8 +7,8 @@ var PullRequests = {
   count: function() {
     var counter = 0;
 
-    $.each(this.items, function() {
-      if (!LocalStorage.read(this.id)) {
+    this.items.forEach(function(element) {
+      if (!LocalStorage.read(element.id)) {
         counter += 1;
       }
     });
