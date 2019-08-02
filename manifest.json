@@ -6,7 +6,8 @@
     "tabs",
     "storage",
     "alarms",
-    "http://localhost:5003/pull_requests"
+    "http://localhost:5003/pull_requests",
+    "https://pull-requests-api.herokuapp.com/*"
   ],
   "browser_action": {
     "default_icon": "images/blue-shark.png",
@@ -21,5 +22,6 @@
       "libraries/api.js",
       "background.js"
     ]
-  }
+  },
+  "options_page": "config/index.html"
 }

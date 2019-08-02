@@ -11,6 +11,11 @@
   background-color: #fff;
 }
 
+#plugin-container.empty {
+  text-align: center;
+  padding: 65px;
+}
+
 h1 {
   text-align: center;
 }
@@ -49,4 +54,8 @@ h1 {
 
 .pull-request-paragraph.checked a {
   color: #ccc;
+}
+
+.hint {
+  width: 340px;
 }

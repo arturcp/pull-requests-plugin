@@ -1,16 +1,25 @@
 $(document).ready(function() {
   var container = $('#plugin-container');
+  var authors = LocalStorage.read('authors');
 
   API.reload(function(items) {
     container.show();
     $('.loading').hide();
 
-    if (items.length > 0) {
+    if (!authors) {
+      container.addClass('empty');
+      container.html('Before using the plugin, save the authors in the config page. Click on the icon with the right button and choose "options".');
+      var hint = $('<img>').attr('src', '/images/config-plugin.png').addClass('hint');
+      container.append(hint);
+    } else if (items.length > 0) {
+      container.removeClass('empty');
+
       $.each(items, function(index, item) {
         container.append(UI._pullRequestLine(item));
       });
     } else {
-      container.innerHTML = 'Não há pull requests abertos.';
+      container.addClass('empty');
+      container.html('You are clean ;)');
     }
   });
 });
