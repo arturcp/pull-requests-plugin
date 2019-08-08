@@ -1,16 +1,36 @@
 $(document).ready(function() {
-  var container = $('#plugin-container');
-  var authors = LocalStorage.read('authors');
+  console.log('API version: ' + PullRequests.version);
 
-  API.reload(function(items) {
+  var container = $('#plugin-container'),
+      authors = LocalStorage.read('authors'),
+      items = PullRequests.getItems();
+
+  if (items && items.length > 0) {
+    console.log('Rebuilt from memory');
+    setTimeout(function() {
+      UI.build(container, authors, items);
+    }, 1000);
+  } else {
+    console.log('Fetching data from API');
+    API.reload(function(items) {
+      UI.build(container, authors, items);
+    });
+  }
+
+  $('#refresh').on('click', function() {
+    PullRequests.setItems(null);
+    location.reload();
+  });
+});
+
+var UI = {
+  build: function(container, authors, items) {
+    container.html('');
     container.show();
     $('.loading').hide();
 
     if (!authors) {
-      container.addClass('empty');
-      container.html('Before using the plugin, save the authors in the config page. Click on the icon with the right button and choose "options".');
-      var hint = $('<img>').attr('src', '/images/config-plugin.png').addClass('hint');
-      container.append(hint);
+      this._showHint(container);
     } else if (items.length > 0) {
       container.removeClass('empty');
 
@@ -21,10 +41,15 @@ $(document).ready(function() {
       container.addClass('empty');
       container.html('You are clean ;)');
     }
-  });
-});
+  },
 
-var UI = {
+  _showHint: function(container) {
+    container.addClass('empty');
+    container.html('Before using the plugin, save the authors in the config page. Click on the icon with the right button and choose "options".');
+    var hint = $('<img>').attr('src', '/images/config-plugin.png').addClass('hint');
+    container.append(hint);
+  },
+
   _pullRequestLine: function(item) {
     var checked = LocalStorage.read(item.id) != null;
 

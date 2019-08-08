@@ -59,3 +59,15 @@ h1 {
 .hint {
   width: 340px;
 }
+
+#header {
+  position: relative;
+}
+
+#refresh {
+  position: absolute;
+  top: 2px;
+  right: 186px;
+  width: 20px;
+  cursor: pointer;
+}

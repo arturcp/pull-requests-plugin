@@ -1,7 +1,18 @@
 var PullRequests = {
   items: [],
+  version: 1,
   setItems: function(items) {
     this.items = items;
+    LocalStorage.write('items', JSON.stringify(items));
+  },
+
+  getItems: function() {
+    var items = LocalStorage.read('items');
+    if (items && items.length > 0) {
+      return JSON.parse(items);
+    } else {
+      return [];
+    }
   },
 
   count: function() {
