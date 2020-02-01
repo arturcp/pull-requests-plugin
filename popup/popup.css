@@ -71,3 +71,9 @@ h1 {
   width: 20px;
   cursor: pointer;
 }
+
+.updated-at {
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 25px;
+}

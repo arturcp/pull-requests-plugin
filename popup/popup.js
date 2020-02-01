@@ -37,6 +37,8 @@ var UI = {
       $.each(items, function(index, item) {
         container.append(UI._pullRequestLine(item));
       });
+
+      container.append('<div class="updated-at">' + UI._showLastUpdateHour() + '</div>');
     } else {
       container.addClass('empty');
       container.html('You are clean ;)');
@@ -146,5 +148,20 @@ var UI = {
     }
 
     PullRequests.count();
+  },
+
+  _showLastUpdateHour: function() {
+    var localDate = LocalStorage.read('last-update');
+    var date = localDate ? new Date(localDate) : new Date(),
+        day = date.getDate(),
+        month = date.getMonth(),
+        year = date.getFullYear(),
+        hour = date.getHours(),
+        minutes = date.getMinutes();
+
+    var str_date = day + '/' + (month + 1) + '/' + year,
+        str_hour = hour + ':' + minutes;
+
+    return 'Atualizado em ' +  str_date + ' ' + str_hour;
   }
 }

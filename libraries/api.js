@@ -6,6 +6,7 @@ var API = {
     $.getJSON(this.url + '?authors=' + authors, function(data) {
       PullRequests.setItems(data.items);
       PullRequests.count();
+      LocalStorage.write('last-update', new Date());
 
       if (callback && typeof(callback) == 'function') {
         callback(data.items);
