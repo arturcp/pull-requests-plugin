@@ -3,9 +3,13 @@ $(document).ready(function() {
 
   var container = $('#plugin-container'),
       authors = LocalStorage.read('authors'),
+      token = LocalStorage.read('token'),
       items = PullRequests.getItems();
 
-  if (items && items.length > 0) {
+  if (!authors || !token) {
+    console.log('Options not set');
+    UI.showHint(container);
+  } else if (items && items.length > 0) {
     console.log('Rebuilt from memory');
     setTimeout(function() {
       UI.build(container, authors, items);
@@ -27,11 +31,10 @@ var UI = {
   build: function(container, authors, items) {
     container.html('');
     container.show();
+
     $('.loading').hide();
 
-    if (!authors) {
-      this._showHint(container);
-    } else if (items.length > 0) {
+    if (items.length > 0) {
       container.removeClass('empty');
 
       $.each(items, function(index, item) {
@@ -45,11 +48,16 @@ var UI = {
     }
   },
 
-  _showHint: function(container) {
+  showHint: function(container) {
+    $('.loading').hide();
+
     container.addClass('empty');
-    container.html('Before using the plugin, save the authors in the config page. Click on the icon with the right button and choose "options".');
+    container.html('Before using the plugin, you need to configure it. Click on the icon with the right button and choose "options".');
+
     var hint = $('<img>').attr('src', '/images/config-plugin.png').addClass('hint');
     container.append(hint);
+    container.show();
+    container.css('display', 'block');
   },
 
   _pullRequestLine: function(item) {
@@ -162,6 +170,6 @@ var UI = {
     var str_date = day + '/' + (month + 1) + '/' + year,
         str_hour = hour + ':' + minutes;
 
-    return 'Atualizado em ' +  str_date + ' ' + str_hour;
+    return 'Last update: ' +  str_date + ' ' + str_hour;
   }
 }

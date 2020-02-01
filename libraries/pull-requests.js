@@ -1,6 +1,6 @@
 var PullRequests = {
   items: [],
-  version: 1,
+  version: 1.1,
   setItems: function(items) {
     this.items = items;
     LocalStorage.write('items', JSON.stringify(items));
