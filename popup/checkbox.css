@@ -72,3 +72,7 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+
+.repo-name {
+  color: green;
+}

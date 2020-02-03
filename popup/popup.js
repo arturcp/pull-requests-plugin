@@ -86,7 +86,11 @@ var UI = {
     var title = item.title.replace(/\[(.*)\]/, '<b>[$1]</b>')
     link.html(title);
 
-    details.html(item.user.login + this._daysAgo(item));
+    var repoParts = item.repository_url.split('/'),
+        repo = repoParts[repoParts.length - 1],
+        repoText = '<a target="_blank" href="https://github.com/' + item.repository_url.replace('https://api.github.com/repos/', '') + '"><b class="repo-name">' + repo + '</b></a> - ';
+
+    details.html(repoText + ' ' + item.user.login + this._daysAgo(item));
 
     p.append(checkbox);
     p.append(link);
@@ -127,7 +131,14 @@ var UI = {
 
   _daysBetween: function(date2, date1) {
     var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-    return  Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    if (date1.getFullYear() === date2.getFullYear() &&
+     date1.getMonth() === date2.getMonth() &&
+     date1.getDate() === date2.getDate()) {
+      return 0;
+    } else {
+      return  Math.ceil(timeDiff / (1000 * 3600 * 24));
+    }
   },
 
   _daysAgo: function(item) {
@@ -139,6 +150,9 @@ var UI = {
         formattedDays = "<span class='" + klass + "'>" + days + "</span>"
 
     var timePassed = days + (days > 1 ? ' days ago' : ' day ago');
+    if (days === 0) {
+      timePassed = "today"
+    }
 
     return ' <b class="' + klass + '">(' + timePassed + ')</b>';
   },
