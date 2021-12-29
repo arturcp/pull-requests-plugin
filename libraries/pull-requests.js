@@ -8,9 +8,13 @@ var PullRequests = {
 
   getItems: function() {
     var items = LocalStorage.read('items');
-    if (items && items.length > 0) {
-      return JSON.parse(items);
-    } else {
+    try {
+      if (items && items.length > 0) {
+        return JSON.parse(items);
+      } else {
+        return [];
+      }
+    } catch {
       return [];
     }
   },
@@ -18,13 +22,15 @@ var PullRequests = {
   count: function() {
     var counter = 0;
 
-    this.items.forEach(function(element) {
-      if (!LocalStorage.read(element.id)) {
-        counter += 1;
-      }
-    });
+    if (this.items) {
+      this.items.forEach(function(element) {
+        if (!LocalStorage.read(element.id)) {
+          counter += 1;
+        }
+      });
 
-    this.setBadge(counter);
+      this.setBadge(counter);
+    }
 
     return counter;
   },
