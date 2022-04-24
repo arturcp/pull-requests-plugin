@@ -1,3 +1,16 @@
+# To load the project locally
+
+The first step is to clone the repository in a folder. Then, go to the browser, set the developer mode on and load `unpacked` the folder:
+
+![](https://res.cloudinary.com/ongmungazi/image/upload/v1650718681/open-source/Screen_Shot_2022-04-23_at_9.45.14_AM.png)
+
+Once you have the extension installed, by clicking on the icon you will be prompted to configure it:
+
+![](https://res.cloudinary.com/ongmungazi/image/upload/v1650718878/open-source/Screen_Shot_2022-04-23_at_10.01.04_AM.png)
+
+Follow the instructions and you are ready to use it.
+
+
 # To generate the .crx file
 http://www.adambarth.com/experimental/crx/docs/packaging.html
 
