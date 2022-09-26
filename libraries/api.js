@@ -1,5 +1,5 @@
 var API = {
-  url: 'https://pull-requests-api.herokuapp.com/pull_requests',
+  url: 'https://pull-requests.colabs.dev',
 
   reload: function(callback) {
     var authors = LocalStorage.read('authors'),
