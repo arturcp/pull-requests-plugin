@@ -1,5 +1,5 @@
 var API = {
-  url: 'https://pull-requests.colabs.dev',
+  url: 'https://pull-requests.colabs.dev/pull_requests',
 
   reload: function(callback) {
     var authors = LocalStorage.read('authors'),
