@@ -7,7 +7,7 @@
     "storage",
     "alarms",
     "http://localhost:5003/pull_requests",
-    "https://pull-requests-api.herokuapp.com/*"
+    "https://pull-requests.colabs.dev/*"
   ],
   "browser_action": {
     "default_icon": "images/blue-shark.png",
